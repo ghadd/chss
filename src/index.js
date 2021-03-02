@@ -1,12 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Board from './components/Board'
+
+const board = [
+  ["wk", "br"],
+  ["bq", "wb"]
+]
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Board 
+      board={board}
+    />
   </React.StrictMode>,
   document.getElementById('root')
 );
