@@ -1,18 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PuzzleInput from './components/PuzzleInput';
 import './index.css';
-import Board from './components/Board'
 
-const board = [
-  ["wk", "br"],
-  ["bq", "wb"]
-]
+
+// ReactDOM.render(
+//   <React.StrictMode>
+//     <PuzzleInput />
+//   </React.StrictMode>,document.getElementById('prompt')
+// )
 
 ReactDOM.render(
   <React.StrictMode>
-    <Board 
+    {/* <Board 
       board={board}
-    />
+    /> */}
+    <PuzzleInput />
   </React.StrictMode>,
   document.getElementById('root')
 );
