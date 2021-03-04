@@ -1,33 +1,66 @@
 import { Component } from "react";
 import PieceParser from "../assets/PieceParser"
+import Board from "./Board"
+
+function partition(a, n) {
+    return a.length ? [a.splice(0, n)].concat(partition(a, n)) : [];
+}
 
 class PuzzleInput extends Component {
     constructor() {
-        super();        
+        super();
         this.state = {
-            url: "example.com"
+            url: "example.com",
+            ready: false,
+            pieces: [],
+            flipped: false
         };
+    }
 
-        this.handleOnSubmit = (e) => {
-            e.preventDefault();
-            alert("Wait...");
-            
-            var parser = new PieceParser(this.state.url)
-            parser.resolve().then(function(response) {
-                this.pieces = response.json();
-            })
-        };
+    handleOnSubmit = (e) => {
+        e.preventDefault();
 
-        this.handleOnChange = (e) => {
-            this.setState({url: e.target.value});
-        };
+        var parser = new PieceParser(this.state.url);
+        parser.resolve().then((response) => {
+            this.setState({ pieces: response, ready: true });
+        }).catch(function (err) {
+            console.error(err);
+        });
+    };
+
+    handleOnChange = (e) => {
+        this.setState({ url: e.target.value });
+    };
+
+    handleOnClick = (e) => {
+        this.setState({
+            flipped: this.state.flipped ^ true
+        });
+    }
+
+    processBoard() {
+        let board = partition(Array(64).fill("nn"), 8)
+        
+        for (let piece of this.state.pieces) {
+            board[8 - piece.position[0]][piece.position[1] - 1] = piece._Piece__piece_id;
+        }
+
+        return board;
+    }
+
+    renderBoard = () => {
+        return <Board board={this.processBoard()} flipped={this.state.flipped} />
     }
 
     render() {
         return (
-            <form onSubmit={this.handleOnSubmit}>
-                <input type="text" onChange={this.handleOnChange}/>
-            </form>
+            <div>
+                <form onSubmit={this.handleOnSubmit} style={{ display: "block" }}>
+                    <input type="text" onChange={this.handleOnChange} />
+                    <h2 onClick={this.handleOnClick}>flip</h2>
+                </form>
+                {this.state.ready && this.renderBoard()}
+            </div>
         );
     }
 };

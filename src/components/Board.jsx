@@ -8,7 +8,7 @@ class Board extends Component {
         this.board = props.board;
         this.shape = [this.board.length, this.board[0].length]
         this.cellSize = props.cellSize ?? "60px";
-        this.flipped = props.flipped ?? false;
+        this.flipped = props.flipped;
     }
 
     render() {
@@ -22,7 +22,10 @@ class Board extends Component {
                 />
             })
         });
-        console.log(rendered);
+
+        if (this.props.flipped) {
+            rendered.reverse().forEach((row) => { row.reverse(); });
+        }
 
         return <div style={
             {
