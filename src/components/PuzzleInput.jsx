@@ -67,12 +67,12 @@ class PuzzleInput extends Component {
         </div>
 
         <div className="infolinks">
-          <button onClick="window.location.href='https://www.chess.com/learn-how-to-play-chess';">
-            Learn to play chess
-          </button>
-          <button
-            onClick={`window.location.href='${this.state.url}';`}
-          ></button>
+          <a href="https://www.chess.com/learn-how-to-play-chess" target="_blank" rel="noreferrer">
+            <button>Learn to play chess</button>
+          </a>
+          <a href={this.state.url} target="_blank" rel="noreferrer">
+            <button>Solve this puzzle on chess.com</button>
+          </a>
         </div>
       </div>
     );
