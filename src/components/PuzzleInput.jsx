@@ -53,7 +53,29 @@ class PuzzleInput extends Component {
   }
 
   renderBoard = () => {
-    return <Board board={this.processBoard()} flipped={this.state.flipped} />;
+    return (
+      <div>
+        <Board board={this.processBoard()} flipped={this.state.flipped} />
+        <div className="controls">
+          <span onClick={this.handleOnClick}>
+            <img
+              className="icon reverse"
+              src="/images/reverse.png"
+              alt="Reverse board"
+            ></img>
+          </span>
+        </div>
+
+        <div className="infolinks">
+          <button onClick="window.location.href='https://www.chess.com/learn-how-to-play-chess';">
+            Learn to play chess
+          </button>
+          <button
+            onClick={`window.location.href='${this.state.url}';`}
+          ></button>
+        </div>
+      </div>
+    );
   };
 
   render() {
@@ -62,16 +84,8 @@ class PuzzleInput extends Component {
         <form onSubmit={this.handleOnSubmit} style={{ display: "block" }}>
           <input type="text" onChange={this.handleOnChange} />
         </form>
-        
-        {this.state.ready && this.renderBoard()}
 
-        <span onClick={this.handleOnClick}>
-          <img
-            className="icon reverse"
-            src="/images/reverse.png"
-            alt="Reverse board"
-          ></img>
-        </span>
+        {this.state.ready && this.renderBoard()}
       </div>
     );
   }

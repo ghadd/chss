@@ -6,6 +6,8 @@ import './index.css';
 ReactDOM.render(
   <React.StrictMode>
     <PuzzleInput />
+    <div className="userform"></div>
+
   </React.StrictMode>,
   document.getElementById('root')
 );
