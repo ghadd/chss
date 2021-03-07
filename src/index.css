@@ -11,3 +11,34 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.cell > img {
+  position: absolute;
+  z-index: 1;
+}
+
+.cell > span {
+  position: absolute;
+  z-index: 2;
+  font-weight: 700;
+}
+
+.cell > span.alphabetic {
+  bottom: 5%;
+  right: 5%;
+}
+
+.cell > span.numeric {
+  left: 5%;
+  top: 5%;
+}
+
+.cell {
+  position: relative;
+  display: flex;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+}

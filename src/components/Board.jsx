@@ -19,6 +19,7 @@ class Board extends Component {
                     key={[rowIdx, fileIdx]}
                     coords={[rowIdx, fileIdx]}
                     height={this.cellSize}
+                    flipped={this.props.flipped}
                 />
             })
         });

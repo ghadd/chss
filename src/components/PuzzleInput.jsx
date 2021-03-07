@@ -1,68 +1,80 @@
 import { Component } from "react";
-import PieceParser from "../assets/PieceParser"
-import Board from "./Board"
+import PieceParser from "../assets/PieceParser";
+import Board from "./Board";
 
 function partition(a, n) {
-    return a.length ? [a.splice(0, n)].concat(partition(a, n)) : [];
+  return a.length ? [a.splice(0, n)].concat(partition(a, n)) : [];
 }
 
 class PuzzleInput extends Component {
-    constructor() {
-        super();
-        this.state = {
-            url: "example.com",
-            ready: false,
-            pieces: [],
-            flipped: false
-        };
+  constructor() {
+    super();
+    this.state = {
+      url: "example.com",
+      ready: false,
+      pieces: [],
+      flipped: false,
+    };
+  }
+
+  handleOnSubmit = (e) => {
+    e.preventDefault();
+
+    var parser = new PieceParser(this.state.url);
+    parser
+      .resolve()
+      .then((response) => {
+        this.setState({ pieces: response, ready: true });
+      })
+      .catch(function (err) {
+        console.error(err);
+      });
+  };
+
+  handleOnChange = (e) => {
+    this.setState({ url: e.target.value });
+  };
+
+  handleOnClick = (e) => {
+    this.setState({
+      flipped: this.state.flipped ^ true,
+    });
+  };
+
+  processBoard() {
+    let board = partition(Array(64).fill("nn"), 8);
+
+    for (let piece of this.state.pieces) {
+      board[8 - piece.position[0]][piece.position[1] - 1] =
+        piece._Piece__piece_id;
     }
 
-    handleOnSubmit = (e) => {
-        e.preventDefault();
+    return board;
+  }
 
-        var parser = new PieceParser(this.state.url);
-        parser.resolve().then((response) => {
-            this.setState({ pieces: response, ready: true });
-        }).catch(function (err) {
-            console.error(err);
-        });
-    };
+  renderBoard = () => {
+    return <Board board={this.processBoard()} flipped={this.state.flipped} />;
+  };
 
-    handleOnChange = (e) => {
-        this.setState({ url: e.target.value });
-    };
-
-    handleOnClick = (e) => {
-        this.setState({
-            flipped: this.state.flipped ^ true
-        });
-    }
-
-    processBoard() {
-        let board = partition(Array(64).fill("nn"), 8)
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleOnSubmit} style={{ display: "block" }}>
+          <input type="text" onChange={this.handleOnChange} />
+        </form>
         
-        for (let piece of this.state.pieces) {
-            board[8 - piece.position[0]][piece.position[1] - 1] = piece._Piece__piece_id;
-        }
+        {this.state.ready && this.renderBoard()}
 
-        return board;
-    }
-
-    renderBoard = () => {
-        return <Board board={this.processBoard()} flipped={this.state.flipped} />
-    }
-
-    render() {
-        return (
-            <div>
-                <form onSubmit={this.handleOnSubmit} style={{ display: "block" }}>
-                    <input type="text" onChange={this.handleOnChange} />
-                    <h2 onClick={this.handleOnClick}>flip</h2>
-                </form>
-                {this.state.ready && this.renderBoard()}
-            </div>
-        );
-    }
-};
+        <span onClick={this.handleOnClick}>
+          <img
+            className="icon reverse"
+            src="/images/reverse.png"
+            alt="Reverse board"
+          ></img>
+        </span>
+      </div>
+    );
+  }
+}
 
 export default PuzzleInput;
