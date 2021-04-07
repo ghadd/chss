@@ -2,6 +2,7 @@ import { Component } from "react";
 import PieceParser from "../assets/PieceParser";
 import Board from "./Board";
 import { Button, Form } from "react-bootstrap";
+import axios from 'axios'
 
 function partition(a, n) {
   return a.length ? [a.splice(0, n)].concat(partition(a, n)) : [];
@@ -10,12 +11,22 @@ function partition(a, n) {
 class PuzzleInput extends Component {
   constructor() {
     super();
+
     this.state = {
       url: "example.com",
       ready: false,
       pieces: [],
       flipped: false,
     };
+
+    axios.get(
+      'https://api.thecatapi.com/v1/images/search',
+    ).then(response => {
+      this.setState({avatarLink: response.data[0].url})
+    })
+
+    console.log(this.state);
+
   }
 
   handleOnSubmit = (e) => {
@@ -94,6 +105,8 @@ class PuzzleInput extends Component {
   render() {
     return (
       <div class="puzzleinput">
+        <img src={this.state.avatarLink} alt="Avatar" id="avatar"/>
+
         <div className="puzzleinputform">
           <Form onSubmit={this.handleOnSubmit} style={{ display: "block" }}>
             <Form.Control

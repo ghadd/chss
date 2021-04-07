@@ -51,16 +51,27 @@ code {
 }
 
 .userform {
-  width: 30%;
+  /* width: 30%; */
+  display: inline-block;
+  vertical-align: revert;
+  margin-left: 25px;
 }
 
 .puzzleinput {
-  width: 30%;
+  /* width: 30%; */
   margin-top: 10px;
   margin-bottom: 10px;
+  display: inline-block;
 }
 
 input,
 button {
-  margin: 10px;
+  margin: 0 10px 10px 0;
+}
+
+#avatar {
+  height: 60px;
+  width: 60px;
+
+  clip-path: circle(at center);
 }
