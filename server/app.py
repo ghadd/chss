@@ -6,6 +6,8 @@ import json
 from sqlalchemy.exc import IntegrityError
 from importlib import import_module
 
+from flask_cors import CORS
+
 db = import_module('database')
 
 load_dotenv()
@@ -18,6 +20,8 @@ app.config['SECRET_KEY'] = "very_secret_key"
 db.db.init_app(app)
 with app.app_context():
     db.db.create_all()
+
+CORS(app)
 
 
 @app.route('/')
@@ -48,4 +52,4 @@ def example():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5000)

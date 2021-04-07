@@ -1,6 +1,7 @@
 import { Component } from "react";
 import PieceParser from "../assets/PieceParser";
 import Board from "./Board";
+import { Button, Form } from "react-bootstrap";
 
 function partition(a, n) {
   return a.length ? [a.splice(0, n)].concat(partition(a, n)) : [];
@@ -67,25 +68,45 @@ class PuzzleInput extends Component {
         </div>
 
         <div className="infolinks">
-          <a href="https://www.chess.com/learn-how-to-play-chess" target="_blank" rel="noreferrer">
-            <button>Learn to play chess</button>
+          <a
+            href="https://www.chess.com/learn-how-to-play-chess"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button variant="secondary">Learn to play chess</Button>
           </a>
           <a href={this.state.url} target="_blank" rel="noreferrer">
-            <button>Solve this puzzle on chess.com</button>
+            <Button variant="secondary">Solve this puzzle on chess.com</Button>
           </a>
         </div>
       </div>
     );
   };
 
-  render() {
+  renderEmptyBoard = () => {
     return (
       <div>
-        <form onSubmit={this.handleOnSubmit} style={{ display: "block" }}>
-          <input type="text" onChange={this.handleOnChange} />
-        </form>
+        <Board board={partition(Array(64).fill("nn"), 8)} flipped={false} />
+      </div>
+    );
+  };
 
-        {this.state.ready && this.renderBoard()}
+  render() {
+    return (
+      <div class="puzzleinput">
+        <div className="puzzleinputform">
+          <Form onSubmit={this.handleOnSubmit} style={{ display: "block" }}>
+            <Form.Control
+              type="text"
+              placeholder="Problem Url"
+              onChange={this.handleOnChange}
+            />
+          </Form>
+        </div>
+        <div className="board">
+          {this.state.ready && this.renderBoard()}
+          {!this.state.ready && this.renderEmptyBoard()}
+        </div>
       </div>
     );
   }
